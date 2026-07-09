@@ -23,7 +23,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, cover, gallery } = experience.content;
+  const { title, date, venue, story, cover, gallery } = experience.content;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
@@ -45,6 +45,12 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         </p>
         <p className="text-text-secondary">{venue}</p>
         <Countdown date={date} />
+        {story && (
+          <div className="text-left pt-4 border-t border-gray-100">
+            <h2 className="text-sm uppercase tracking-wide text-text-muted mb-2">Our Story</h2>
+            <p className="text-text-secondary whitespace-pre-line">{story}</p>
+          </div>
+        )}
         {gallery && gallery.length > 0 && (
           <div className="grid grid-cols-2 gap-2 pt-4 border-t border-gray-100">
             {gallery.map((url: string, i: number) => (
