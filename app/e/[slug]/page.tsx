@@ -4,6 +4,7 @@ import Countdown from "./countdown";
 import { Logo } from "@/components/logo";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { themes, defaultTheme, ThemeKey } from "@/lib/themes";
 
 export async function generateMetadata({
   params,
@@ -65,6 +66,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   }
 
   const { title, date, venue, story, cover, gallery } = experience.content;
+  const themeKey = (experience.content.theme as ThemeKey) || defaultTheme;
+  const theme = themes[themeKey] ?? themes[defaultTheme];
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
@@ -79,13 +82,15 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
             priority
           />
         )}
-        <p className="text-xs tracking-widest uppercase text-pink font-medium">You&apos;re Invited</p>
+        <p className="text-xs tracking-widest uppercase font-medium" style={{ color: theme.accent }}>
+          You&apos;re Invited
+        </p>
         <h1 className="text-4xl font-bold text-ink">{title}</h1>
         <p className="text-text-secondary">
           {new Date(date).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
         </p>
         <p className="text-text-secondary">{venue}</p>
-        <Countdown date={date} />
+        <Countdown date={date} accent={theme.accent} accentLight={theme.accentLight} />
         {story && (
           <div className="text-left pt-4 border-t border-gray-100">
             <h2 className="text-sm uppercase tracking-wide text-text-muted mb-2">Our Story</h2>
@@ -100,7 +105,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           </div>
         )}
         <div className="pt-4 border-t border-gray-100">
-          <RSVPForm experienceId={experience.id} />
+          <RSVPForm experienceId={experience.id} accent={theme.accent} />
         </div>
         <div className="pt-4 flex justify-center opacity-60">
           <Logo />

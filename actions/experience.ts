@@ -13,6 +13,7 @@ export async function createExperience(formData: FormData) {
   const venue = formData.get("venue") as string;
   const story = formData.get("story") as string;
   const cover = formData.get("cover") as string;
+  const theme = formData.get("theme") as string;
   const galleryRaw = formData.get("gallery") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
@@ -23,7 +24,7 @@ export async function createExperience(formData: FormData) {
     title,
     slug,
     status: "published",
-    content: { title, date, venue, story, cover, gallery },
+    content: { title, date, venue, story, cover, gallery, theme },
   });
 
   if (error) {
@@ -44,13 +45,14 @@ export async function updateExperience(id: string, formData: FormData) {
   const venue = formData.get("venue") as string;
   const story = formData.get("story") as string;
   const cover = formData.get("cover") as string;
+  const theme = formData.get("theme") as string;
   const galleryRaw = formData.get("gallery") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
 
   const { error } = await supabase
     .from("experiences")
-    .update({ title, content: { title, date, venue, story, cover, gallery } })
+    .update({ title, content: { title, date, venue, story, cover, gallery, theme } })
     .eq("id", id)
     .eq("owner_id", user.id);
 

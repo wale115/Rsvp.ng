@@ -2,7 +2,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 
-export default function RSVPForm({ experienceId }: { experienceId: string }) {
+export default function RSVPForm({ experienceId, accent }: { experienceId: string; accent: string }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"going" | "maybe" | "declined">("going");
@@ -59,7 +59,10 @@ export default function RSVPForm({ experienceId }: { experienceId: string }) {
         <option value="declined">Can&apos;t make it</option>
       </select>
       {error && <p className="text-red-600 text-sm">{error}</p>}
-      <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3 w-full rounded-xl font-medium transition-colors">
+      <button
+        className="text-white p-3 w-full rounded-xl font-medium transition-colors"
+        style={{ backgroundColor: accent }}
+      >
         Submit RSVP
       </button>
     </form>

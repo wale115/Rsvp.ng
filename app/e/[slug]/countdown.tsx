@@ -12,7 +12,15 @@ function getTimeLeft(target: string) {
   };
 }
 
-export default function Countdown({ date }: { date: string }) {
+export default function Countdown({
+  date,
+  accent,
+  accentLight,
+}: {
+  date: string;
+  accent: string;
+  accentLight: string;
+}) {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(date));
 
   useEffect(() => {
@@ -21,7 +29,7 @@ export default function Countdown({ date }: { date: string }) {
   }, [date]);
 
   if (!timeLeft) {
-    return <p className="text-brand font-medium">The celebration has begun 🎉</p>;
+    return <p style={{ color: accent }} className="font-medium">The celebration has begun 🎉</p>;
   }
 
   const units = [
@@ -34,8 +42,10 @@ export default function Countdown({ date }: { date: string }) {
   return (
     <div className="flex justify-center gap-3">
       {units.map((u) => (
-        <div key={u.label} className="bg-brand-light rounded-xl px-3 py-2 min-w-[60px]">
-          <p className="text-2xl font-bold text-brand tabular-nums">{String(u.value).padStart(2, "0")}</p>
+        <div key={u.label} className="rounded-xl px-3 py-2 min-w-[60px]" style={{ backgroundColor: accentLight }}>
+          <p className="text-2xl font-bold tabular-nums" style={{ color: accent }}>
+            {String(u.value).padStart(2, "0")}
+          </p>
           <p className="text-xs text-text-muted uppercase tracking-wide">{u.label}</p>
         </div>
       ))}
