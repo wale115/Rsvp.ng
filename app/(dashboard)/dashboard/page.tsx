@@ -60,7 +60,16 @@ export default async function Dashboard() {
                   </p>
                 </div>
               </div>
-              <ShareButtons slug={e.slug} />
+              <div className="flex justify-between items-center mt-2">
+                <ShareButtons slug={e.slug} />
+                <Link
+                  href={`/dashboard/${e.id}/guests`}
+                  onClick={(ev) => ev.stopPropagation()}
+                  className="text-xs text-blue-600 underline"
+                >
+                  View Guests
+                </Link>
+              </div>
             </Link>
           );
         })}
