@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import RSVPForm from "./rsvp-form";
 import Countdown from "./countdown";
 import { Logo } from "@/components/logo";
+import Image from "next/image";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -22,11 +23,21 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue } = experience.content;
+  const { title, date, venue, cover, gallery } = experience.content;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
       <div className="max-w-lg w-full text-center space-y-6 bg-white p-10 rounded-3xl shadow-xl">
+        {cover && (
+          <Image
+            src={cover}
+            alt=""
+            width={600}
+            height={300}
+            className="w-full h-56 object-cover rounded-2xl -mt-4 mb-2"
+            priority
+          />
+        )}
         <p className="text-xs tracking-widest uppercase text-pink font-medium">You&apos;re Invited</p>
         <h1 className="text-4xl font-bold text-ink">{title}</h1>
         <p className="text-text-secondary">
@@ -34,6 +45,13 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         </p>
         <p className="text-text-secondary">{venue}</p>
         <Countdown date={date} />
+        {gallery && gallery.length > 0 && (
+          <div className="grid grid-cols-2 gap-2 pt-4 border-t border-gray-100">
+            {gallery.map((url: string, i: number) => (
+              <Image key={i} src={url} alt="" width={300} height={150} className="w-full h-32 object-cover rounded-xl" />
+            ))}
+          </div>
+        )}
         <div className="pt-4 border-t border-gray-100">
           <RSVPForm experienceId={experience.id} />
         </div>

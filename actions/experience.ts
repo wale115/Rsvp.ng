@@ -11,6 +11,10 @@ export async function createExperience(formData: FormData) {
   const title = formData.get("title") as string;
   const date = formData.get("date") as string;
   const venue = formData.get("venue") as string;
+  const cover = formData.get("cover") as string;
+  const galleryRaw = formData.get("gallery") as string;
+
+  const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
   const slug = `${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${nanoid(4)}`;
 
   const { error } = await supabase.from("experiences").insert({
@@ -18,7 +22,7 @@ export async function createExperience(formData: FormData) {
     title,
     slug,
     status: "published",
-    content: { title, date, venue },
+    content: { title, date, venue, cover, gallery },
   });
 
   if (error) {
@@ -37,10 +41,14 @@ export async function updateExperience(id: string, formData: FormData) {
   const title = formData.get("title") as string;
   const date = formData.get("date") as string;
   const venue = formData.get("venue") as string;
+  const cover = formData.get("cover") as string;
+  const galleryRaw = formData.get("gallery") as string;
+
+  const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
 
   const { error } = await supabase
     .from("experiences")
-    .update({ title, content: { title, date, venue } })
+    .update({ title, content: { title, date, venue, cover, gallery } })
     .eq("id", id)
     .eq("owner_id", user.id);
 
@@ -61,4 +69,3 @@ export async function deleteExperience(id: string) {
 
   redirect("/dashboard");
 }
-
