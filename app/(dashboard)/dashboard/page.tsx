@@ -1,8 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import ShareButtons from "./share-buttons";
-import DeleteButton from "./delete-button";
+import EventCard from "./event-card";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -48,40 +47,14 @@ export default async function Dashboard() {
         {experiences?.map((e) => {
           const counts = countsByExperience[e.id] ?? { going: 0, maybe: 0, declined: 0, total: 0 };
           return (
-            <Link key={e.id} href={`/e/${e.slug}`} className="block border p-4 rounded-xl hover:shadow">
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-semibold">{e.content.title}</p>
-                  <p className="text-sm text-gray-500">{e.status}</p>
-                </div>
-                <div className="text-right text-sm">
-                  <p className="font-medium">{counts.total} response{counts.total !== 1 ? "s" : ""}</p>
-                  <p className="text-gray-500">
-                    {counts.going} going · {counts.maybe} maybe · {counts.declined} declined
-                  </p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center mt-2">
-                <ShareButtons slug={e.slug} />
-                <div className="flex gap-3 items-center">
-                  <Link
-                    href={`/dashboard/${e.id}/edit`}
-                    onClick={(ev) => ev.stopPropagation()}
-                    className="text-xs text-gray-600 underline"
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    href={`/dashboard/${e.id}/guests`}
-                    onClick={(ev) => ev.stopPropagation()}
-                    className="text-xs text-blue-600 underline"
-                  >
-                    View Guests
-                  </Link>
-                  <DeleteButton id={e.id} />
-                </div>
-              </div>
-            </Link>
+            <EventCard
+              key={e.id}
+              id={e.id}
+              slug={e.slug}
+              title={e.content.title}
+              status={e.status}
+              counts={counts}
+            />
           );
         })}
       </div>
