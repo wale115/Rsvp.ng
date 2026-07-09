@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import RSVPForm from "./rsvp-form";
+import Countdown from "./countdown";
+import { Logo } from "@/components/logo";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -31,8 +33,12 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           {new Date(date).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
         </p>
         <p className="text-text-secondary">{venue}</p>
+        <Countdown date={date} />
         <div className="pt-4 border-t border-gray-100">
           <RSVPForm experienceId={experience.id} />
+        </div>
+        <div className="pt-4 flex justify-center opacity-60">
+          <Logo />
         </div>
       </div>
     </div>

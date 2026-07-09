@@ -2,6 +2,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Logo } from "@/components/logo";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
@@ -19,6 +20,9 @@ export default function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <form onSubmit={handleSubmit} className="max-w-sm w-full space-y-4">
+        <div className="flex justify-center mb-2">
+          <Logo withTagline />
+        </div>
         <h1 className="text-2xl font-bold text-center">Sign up</h1>
         <input
           className="border p-3 w-full rounded-xl"

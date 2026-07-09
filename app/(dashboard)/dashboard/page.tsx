@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import EventCard from "./event-card";
 import LogoutButton from "./logout-button";
+import { Logo } from "@/components/logo";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -34,7 +35,7 @@ export default async function Dashboard() {
   return (
     <div className="max-w-xl mx-auto mt-16 space-y-4 px-4">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Your Events</h1>
+        <Logo />
         <div className="flex items-center gap-4">
           <Link href="/dashboard/new" className="bg-brand hover:bg-[#5A3AE0] text-white px-4 py-2 rounded-xl transition-colors">
             + New Event
