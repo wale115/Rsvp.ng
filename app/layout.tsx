@@ -9,6 +9,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
   title: "Rsvp.ng — Every Event. Perfectly Shared.",
   description: "Create beautiful, animated event experiences for weddings, birthdays, and more.",
   appleWebApp: { capable: true, statusBarStyle: "default", title: "Rsvp.ng" },

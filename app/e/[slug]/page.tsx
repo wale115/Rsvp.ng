@@ -3,6 +3,47 @@ import RSVPForm from "./rsvp-form";
 import Countdown from "./countdown";
 import { Logo } from "@/components/logo";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const supabase = await createClient();
+
+  const { data: experience } = await supabase
+    .from("experiences")
+    .select("*")
+    .eq("slug", slug)
+    .eq("status", "published")
+    .single();
+
+  if (!experience) {
+    return { title: "Event Not Found — Rsvp.ng" };
+  }
+
+  const { title, date, venue, cover } = experience.content;
+  const description = `${new Date(date).toLocaleDateString(undefined, { dateStyle: "long" })} · ${venue}`;
+
+  return {
+    title: `${title} — You're Invited`,
+    description,
+    openGraph: {
+      title: `${title} — You're Invited`,
+      description,
+      images: cover ? [{ url: cover, width: 600, height: 300 }] : [],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} — You're Invited`,
+      description,
+      images: cover ? [cover] : [],
+    },
+  };
+}
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
