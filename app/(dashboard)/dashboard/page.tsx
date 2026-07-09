@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import ShareButtons from "./share-buttons";
+import DeleteButton from "./delete-button";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -62,13 +63,23 @@ export default async function Dashboard() {
               </div>
               <div className="flex justify-between items-center mt-2">
                 <ShareButtons slug={e.slug} />
-                <Link
-                  href={`/dashboard/${e.id}/guests`}
-                  onClick={(ev) => ev.stopPropagation()}
-                  className="text-xs text-blue-600 underline"
-                >
-                  View Guests
-                </Link>
+                <div className="flex gap-3 items-center">
+                  <Link
+                    href={`/dashboard/${e.id}/edit`}
+                    onClick={(ev) => ev.stopPropagation()}
+                    className="text-xs text-gray-600 underline"
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    href={`/dashboard/${e.id}/guests`}
+                    onClick={(ev) => ev.stopPropagation()}
+                    className="text-xs text-blue-600 underline"
+                  >
+                    View Guests
+                  </Link>
+                  <DeleteButton id={e.id} />
+                </div>
               </div>
             </Link>
           );
