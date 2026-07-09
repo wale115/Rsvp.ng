@@ -14,6 +14,21 @@ export default async function Dashboard() {
     .eq("owner_id", user.id)
     .order("created_at", { ascending: false });
 
+  const experienceIds = experiences?.map((e) => e.id) ?? [];
+
+  const { data: guests } = experienceIds.length
+    ? await supabase.from("guests").select("experience_id, status").in("experience_id", experienceIds)
+    : { data: [] };
+
+  const countsByExperience = (guests ?? []).reduce<
+    Record<string, { going: number; maybe: number; declined: number; total: number }>
+  >((acc, g) => {
+    if (!acc[g.experience_id]) acc[g.experience_id] = { going: 0, maybe: 0, declined: 0, total: 0 };
+    acc[g.experience_id][g.status as "going" | "maybe" | "declined"]++;
+    acc[g.experience_id].total++;
+    return acc;
+  }, {});
+
   return (
     <div className="max-w-xl mx-auto mt-16 space-y-4 px-4">
       <div className="flex justify-between items-center">
@@ -27,12 +42,27 @@ export default async function Dashboard() {
         <p className="text-gray-500">No events yet. Create your first one.</p>
       )}
 
-      {experiences?.map((e) => (
-        <Link key={e.id} href={`/e/${e.slug}`} className="block border p-4 rounded-xl hover:shadow">
-          <p className="font-semibold">{e.content.title}</p>
-          <p className="text-sm text-gray-500">{e.status}</p>
-        </Link>
-      ))}
+      <div className="space-y-4">
+        {experiences?.map((e) => {
+          const counts = countsByExperience[e.id] ?? { going: 0, maybe: 0, declined: 0, total: 0 };
+          return (
+            <Link key={e.id} href={`/e/${e.slug}`} className="block border p-4 rounded-xl hover:shadow">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="font-semibold">{e.content.title}</p>
+                  <p className="text-sm text-gray-500">{e.status}</p>
+                </div>
+                <div className="text-right text-sm">
+                  <p className="font-medium">{counts.total} response{counts.total !== 1 ? "s" : ""}</p>
+                  <p className="text-gray-500">
+                    {counts.going} going · {counts.maybe} maybe · {counts.declined} declined
+                  </p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
