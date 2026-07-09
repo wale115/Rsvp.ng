@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import ShareButtons from "./share-buttons";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -59,6 +60,7 @@ export default async function Dashboard() {
                   </p>
                 </div>
               </div>
+              <ShareButtons slug={e.slug} />
             </Link>
           );
         })}
