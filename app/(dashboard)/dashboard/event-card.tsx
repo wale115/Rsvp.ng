@@ -18,7 +18,7 @@ export default function EventCard({ id, slug, title, status, counts }: Props) {
   const router = useRouter();
 
   return (
-    <div className="block border p-4 rounded-xl hover:shadow">
+    <div className="block bg-white border border-gray-100 p-4 rounded-2xl hover:shadow-lg transition-shadow">
       {/* Clickable main body navigates to the public event page */}
       <div
         className="cursor-pointer"
@@ -30,7 +30,7 @@ export default function EventCard({ id, slug, title, status, counts }: Props) {
             <p className="text-sm text-gray-500">{status}</p>
           </div>
           <div className="text-right text-sm">
-            <p className="font-medium">{counts.total} response{counts.total !== 1 ? "s" : ""}</p>
+            <p className="font-medium text-brand">{counts.total} response{counts.total !== 1 ? "s" : ""}</p>
             <p className="text-gray-500">
               {counts.going} going · {counts.maybe} maybe · {counts.declined} declined
             </p>

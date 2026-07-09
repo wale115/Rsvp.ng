@@ -36,7 +36,7 @@ export default async function Dashboard() {
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Your Events</h1>
         <div className="flex items-center gap-4">
-          <Link href="/dashboard/new" className="bg-black text-white px-4 py-2 rounded-xl">
+          <Link href="/dashboard/new" className="bg-brand hover:bg-[#5A3AE0] text-white px-4 py-2 rounded-xl transition-colors">
             + New Event
           </Link>
           <LogoutButton />

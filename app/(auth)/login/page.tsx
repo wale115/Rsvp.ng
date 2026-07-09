@@ -33,7 +33,7 @@ export default function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button className="bg-black text-white p-3 w-full rounded-xl">Log in</button>
+        <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3 w-full rounded-xl transition-colors">Log in</button>
         <a href="/signup" className="block text-center text-sm text-gray-500">
           Need an account? Sign up
         </a>

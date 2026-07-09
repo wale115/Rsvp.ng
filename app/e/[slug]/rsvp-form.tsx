@@ -59,7 +59,9 @@ export default function RSVPForm({ experienceId }: { experienceId: string }) {
         <option value="declined">Can&apos;t make it</option>
       </select>
       {error && <p className="text-red-600 text-sm">{error}</p>}
-      <button className="bg-black text-white p-3 w-full rounded-xl">Submit RSVP</button>
+      <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3 w-full rounded-xl font-medium transition-colors">
+        Submit RSVP
+      </button>
     </form>
   );
 }

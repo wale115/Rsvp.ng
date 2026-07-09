@@ -14,8 +14,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
   if (!experience) {
     return (
-      <div className="text-center mt-20 px-4">
-        <p className="text-gray-500">This event is no longer available.</p>
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <p className="text-text-secondary">This event is no longer available.</p>
       </div>
     );
   }
@@ -23,13 +23,18 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const { title, date, venue } = experience.content;
 
   return (
-    <div className="max-w-lg mx-auto mt-16 text-center space-y-6 px-4">
-      <h1 className="text-4xl font-bold">{title}</h1>
-      <p className="text-gray-600">
-        {new Date(date).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
-      </p>
-      <p className="text-gray-600">{venue}</p>
-      <RSVPForm experienceId={experience.id} />
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
+      <div className="max-w-lg w-full text-center space-y-6 bg-white p-10 rounded-3xl shadow-xl">
+        <p className="text-xs tracking-widest uppercase text-pink font-medium">You&apos;re Invited</p>
+        <h1 className="text-4xl font-bold text-ink">{title}</h1>
+        <p className="text-text-secondary">
+          {new Date(date).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
+        </p>
+        <p className="text-text-secondary">{venue}</p>
+        <div className="pt-4 border-t border-gray-100">
+          <RSVPForm experienceId={experience.id} />
+        </div>
+      </div>
     </div>
   );
 }
