@@ -49,19 +49,16 @@ export default async function Dashboard() {
       )}
 
       <div className="space-y-4">
-        {experiences?.map((e) => {
-          const counts = countsByExperience[e.id] ?? { going: 0, maybe: 0, declined: 0, total: 0 };
-          return (
-            <EventCard
-              key={e.id}
-              id={e.id}
-              slug={e.slug}
-              title={e.content.title}
-              status={e.status}
-              counts={counts}
-            />
-          );
-        })}
+        {experiences?.map((e) => (
+          <EventCard
+            key={e.id}
+            id={e.id}
+            slug={e.slug}
+            title={e.content.title}
+            status={e.status}
+            counts={countsByExperience[e.id] ?? { going: 0, maybe: 0, declined: 0, total: 0 }}
+          />
+        ))}
       </div>
     </div>
   );
