@@ -32,7 +32,7 @@ export function Logo({ withTagline = false }: { withTagline?: boolean }) {
       <LogoIcon size={32} />
       <div>
         <span className="text-xl font-bold text-ink">
-          rsvp<span className="text-brand">.ng</span>
+          Rsvp<span className="text-brand">.ng</span>
         </span>
         {withTagline && (
           <p className="text-xs text-text-muted -mt-1">Every Event. Perfectly Shared.</p>
