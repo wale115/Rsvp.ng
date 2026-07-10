@@ -9,7 +9,14 @@ export async function createClient() {
     {
       cookies: {
         getAll: () => cookieStore.getAll(),
-        setAll: (list) => list.forEach(({ name, value, options }) => cookieStore.set(name, value, options)),
+        setAll: (list) => {
+          try {
+            list.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
+          } catch {
+            // Called from a Server Component render (not a Server Action/Route Handler).
+            // Safe to ignore — session refresh is handled by middleware instead.
+          }
+        },
       },
     }
   );
