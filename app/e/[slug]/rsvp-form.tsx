@@ -1,36 +1,37 @@
 "use client";
-import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
+import { submitRSVP } from "@/actions/guest";
 
-export default function RSVPForm({ experienceId }: { experienceId: string }) {
+export default function RSVPForm({ experienceId, accent }: { experienceId: string; accent?: string }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"going" | "maybe" | "declined">("going");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
-  const supabase = createClient();
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    setLoading(true);
 
-    const { error } = await supabase.from("guests").insert({
-      experience_id: experienceId,
-      name,
-      phone,
-      status,
-    });
+    const result = await submitRSVP(experienceId, name, phone, status, email);
 
-    if (error) {
-      setError(error.code === "23505" ? "You've already RSVP'd for this event." : error.message);
+    setLoading(false);
+
+    if (result.error) {
+      setError(result.error);
       return;
     }
 
     setSubmitted(true);
   }
 
+  const accentColor = accent || "#6C47FF";
+
   if (submitted) {
-    return <p className="text-green-600 font-medium">Thanks — your RSVP is in! 🎉</p>;
+    return <p style={{ color: accentColor }} className="font-medium">Thanks — your RSVP is in! 🎉</p>;
   }
 
   return (
@@ -49,6 +50,13 @@ export default function RSVPForm({ experienceId }: { experienceId: string }) {
         onChange={(e) => setPhone(e.target.value)}
         required
       />
+      <input
+        className="border p-3 w-full rounded-xl"
+        type="email"
+        placeholder="Email (optional — for confirmation)"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
       <select
         className="border p-3 w-full rounded-xl"
         value={status}
@@ -59,8 +67,12 @@ export default function RSVPForm({ experienceId }: { experienceId: string }) {
         <option value="declined">Can&apos;t make it</option>
       </select>
       {error && <p className="text-red-600 text-sm">{error}</p>}
-      <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3 w-full rounded-xl font-medium transition-colors">
-        Submit RSVP
+      <button
+        disabled={loading}
+        className="text-white p-3 w-full rounded-xl font-medium transition-colors disabled:opacity-60"
+        style={{ backgroundColor: accentColor }}
+      >
+        {loading ? "Submitting…" : "Submit RSVP"}
       </button>
     </form>
   );
