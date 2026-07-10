@@ -18,7 +18,7 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
 
   if (!experience) redirect("/dashboard");
 
-  const { title, date, venue, cover, gallery } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline } = experience.content;
   const updateWithId = updateExperience.bind(null, id);
 
   return (
@@ -26,6 +26,15 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
       <h1 className="text-2xl font-bold text-center">Edit Event</h1>
       <input name="title" defaultValue={title} placeholder="Event title" className="border p-3 w-full rounded-xl" required />
       <input name="date" type="datetime-local" defaultValue={date?.slice(0, 16)} className="border p-3 w-full rounded-xl" required />
+      <div>
+        <label className="text-sm text-text-secondary mb-1 block">RSVP Deadline (optional)</label>
+        <input
+          name="rsvpDeadline"
+          type="datetime-local"
+          defaultValue={rsvpDeadline?.slice(0, 16)}
+          className="border p-3 w-full rounded-xl"
+        />
+      </div>
       <input name="venue" defaultValue={venue} placeholder="Venue" className="border p-3 w-full rounded-xl" required />
       <ImageUploader name="cover" initialUrls={cover ? [cover] : []} multiple={false} />
       <ImageUploader name="gallery" initialUrls={gallery ?? []} />

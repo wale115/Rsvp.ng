@@ -23,7 +23,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, cover, gallery } = experience.content;
+  const { title, date, venue, cover, gallery, rsvpDeadline } = experience.content;
+  const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
@@ -53,7 +54,11 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           </div>
         )}
         <div className="pt-4 border-t border-gray-100">
-          <RSVPForm experienceId={experience.id} />
+          {isClosed ? (
+            <p className="text-text-secondary">RSVPs have closed for this event.</p>
+          ) : (
+            <RSVPForm experienceId={experience.id} />
+          )}
         </div>
         <div className="pt-4 flex justify-center opacity-60">
           <Logo />

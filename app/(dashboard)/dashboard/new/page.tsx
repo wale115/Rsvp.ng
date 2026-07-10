@@ -7,6 +7,10 @@ export default function NewExperience() {
       <h1 className="text-2xl font-bold text-center">New Event</h1>
       <input name="title" placeholder="Event title (e.g. John & Mary)" className="border p-3 w-full rounded-xl" required />
       <input name="date" type="datetime-local" className="border p-3 w-full rounded-xl" required />
+      <div>
+        <label className="text-sm text-text-secondary mb-1 block">RSVP Deadline (optional)</label>
+        <input name="rsvpDeadline" type="datetime-local" className="border p-3 w-full rounded-xl" />
+      </div>
       <input name="venue" placeholder="Venue" className="border p-3 w-full rounded-xl" required />
       <ImageUploader name="cover" multiple={false} />
       <ImageUploader name="gallery" />
