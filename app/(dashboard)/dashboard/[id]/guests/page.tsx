@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import ExportButton from "./export-button";
 
 export default async function GuestsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -26,7 +27,10 @@ export default async function GuestsPage({ params }: { params: Promise<{ id: str
   return (
     <div className="max-w-xl mx-auto mt-16 space-y-4 px-4">
       <Link href="/dashboard" className="text-sm text-gray-500">← Back to events</Link>
-      <h1 className="text-2xl font-bold">{experience.content.title} — Guests</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold">{experience.content.title} — Guests</h1>
+        <ExportButton guests={guests ?? []} eventTitle={experience.content.title} />
+      </div>
 
       {(!guests || guests.length === 0) && <p className="text-gray-500">No RSVPs yet.</p>}
 
