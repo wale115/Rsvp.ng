@@ -24,7 +24,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, cover, gallery, theme, rsvpDeadline, password } = experience.content;
+  const { title, date, venue, cover, gallery, theme, rsvpDeadline, password, hideBranding } = experience.content;
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
   const content = (
@@ -61,9 +61,11 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
             <RSVPForm experienceId={experience.id} accent={theme?.accent} />
           )}
         </div>
-        <div className="pt-4 flex justify-center opacity-60">
-          <Logo />
-        </div>
+        {!hideBranding && (
+          <div className="pt-4 flex justify-center opacity-60">
+            <Logo />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
 
   if (!experience) redirect("/dashboard");
 
-  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding } = experience.content;
   const updateWithId = updateExperience.bind(null, id);
 
   return (
@@ -42,6 +42,13 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
         <label className="text-sm text-text-secondary mb-1 block">Password (optional — leave blank for public)</label>
         <input name="password" type="text" defaultValue={password} placeholder="e.g. john2027" className="border p-3 w-full rounded-xl" />
       </div>
+      <label className="flex items-center gap-3 border border-gray-200 rounded-xl p-3 cursor-pointer">
+        <input type="checkbox" name="hideBranding" defaultChecked={hideBranding} className="w-4 h-4 accent-brand" />
+        <div>
+          <p className="text-sm font-medium text-ink">Remove Rsvp.ng branding</p>
+          <p className="text-xs text-text-muted">Premium feature — hide the footer logo on this event page</p>
+        </div>
+      </label>
       <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3 w-full rounded-xl transition-colors">Save Changes</button>
     </form>
   );
