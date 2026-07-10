@@ -1,6 +1,7 @@
 "use server";
 import { createClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
+import { sendRSVPConfirmation } from "@/lib/email";
 
 const MAX_SUBMISSIONS_PER_HOUR = 10;
 
@@ -41,6 +42,25 @@ export async function submitRSVP(
       return { error: "You've already RSVP'd for this event." };
     }
     return { error: error.message };
+  }
+
+  // Send confirmation email if guest provided one and is attending
+  if (email && status === "going") {
+    const { data: experience } = await supabase
+      .from("experiences")
+      .select("content")
+      .eq("id", experienceId)
+      .single();
+
+    if (experience) {
+      await sendRSVPConfirmation({
+        to: email,
+        guestName: name,
+        eventTitle: experience.content.title,
+        eventDate: experience.content.date,
+        venue: experience.content.venue,
+      });
+    }
   }
 
   return { success: true };
