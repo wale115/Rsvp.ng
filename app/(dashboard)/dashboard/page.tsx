@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import EventCard from "./event-card";
 import LogoutButton from "./logout-button";
 import { Logo } from "@/components/logo";
+import StatsRow from "./stats-row";
 
 export default async function Dashboard() {
   const supabase = await createClient();
@@ -32,6 +33,12 @@ export default async function Dashboard() {
     return acc;
   }, {});
 
+  const totalExperiences = experiences?.length ?? 0;
+  const publishedCount = experiences?.filter((e) => e.status === "published").length ?? 0;
+  const totalRSVPs = guests?.length ?? 0;
+  const respondedExperiences = Object.keys(countsByExperience).length;
+  const responseRate = totalExperiences > 0 ? Math.round((respondedExperiences / totalExperiences) * 100) : 0;
+
   return (
     <div className="max-w-xl mx-auto mt-16 space-y-4 px-4">
       <div className="flex justify-between items-center">
@@ -43,6 +50,13 @@ export default async function Dashboard() {
           <LogoutButton />
         </div>
       </div>
+
+      <StatsRow
+        totalExperiences={totalExperiences}
+        publishedCount={publishedCount}
+        totalRSVPs={totalRSVPs}
+        responseRate={responseRate}
+      />
 
       {(!experiences || experiences.length === 0) && (
         <p className="text-gray-500">No events yet. Create your first one.</p>
