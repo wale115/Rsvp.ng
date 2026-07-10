@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 function getTimeLeft(target: string) {
   const diff = new Date(target).getTime() - Date.now();
@@ -12,8 +13,40 @@ function getTimeLeft(target: string) {
   };
 }
 
-export default function Countdown({ date }: { date: string }) {
+function Digit({ value, reduceMotion }: { value: number; reduceMotion: boolean }) {
+  const display = String(value).padStart(2, "0");
+
+  if (reduceMotion) {
+    return <span>{display}</span>;
+  }
+
+  return (
+    <AnimatePresence mode="popLayout">
+      <motion.span
+        key={display}
+        initial={{ y: -12, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 12, opacity: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="inline-block"
+      >
+        {display}
+      </motion.span>
+    </AnimatePresence>
+  );
+}
+
+export default function Countdown({
+  date,
+  accent,
+  accentLight,
+}: {
+  date: string;
+  accent: string;
+  accentLight: string;
+}) {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft(date));
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     const interval = setInterval(() => setTimeLeft(getTimeLeft(date)), 1000);
@@ -21,7 +54,7 @@ export default function Countdown({ date }: { date: string }) {
   }, [date]);
 
   if (!timeLeft) {
-    return <p className="text-brand font-medium">The celebration has begun 🎉</p>;
+    return <p style={{ color: accent }} className="font-medium">The celebration has begun 🎉</p>;
   }
 
   const units = [
@@ -34,8 +67,14 @@ export default function Countdown({ date }: { date: string }) {
   return (
     <div className="flex justify-center gap-3">
       {units.map((u) => (
-        <div key={u.label} className="bg-brand-light rounded-xl px-3 py-2 min-w-[60px]">
-          <p className="text-2xl font-bold text-brand tabular-nums">{String(u.value).padStart(2, "0")}</p>
+        <div
+          key={u.label}
+          className="rounded-xl px-3 py-2 min-w-[60px] overflow-hidden"
+          style={{ backgroundColor: accentLight }}
+        >
+          <p className="text-2xl font-bold tabular-nums" style={{ color: accent }}>
+            <Digit value={u.value} reduceMotion={!!shouldReduceMotion} />
+          </p>
           <p className="text-xs text-text-muted uppercase tracking-wide">{u.label}</p>
         </div>
       ))}

@@ -51,3 +51,12 @@ input:focus, select:focus, textarea:focus {
   box-shadow: 0 0 0 3px var(--color-brand-light);
   border-color: var(--color-brand);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

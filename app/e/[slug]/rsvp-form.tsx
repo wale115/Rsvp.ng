@@ -1,8 +1,18 @@
 "use client";
 import { useState } from "react";
 import { submitRSVP } from "@/actions/guest";
+import ConfettiBurst from "@/components/confetti-burst";
+import HeartsBurst from "@/components/hearts-burst";
 
-export default function RSVPForm({ experienceId, accent }: { experienceId: string; accent?: string }) {
+export default function RSVPForm({
+  experienceId,
+  accent,
+  decoration = "none",
+}: {
+  experienceId: string;
+  accent: string;
+  decoration?: "none" | "confetti" | "hearts";
+}) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -15,23 +25,25 @@ export default function RSVPForm({ experienceId, accent }: { experienceId: strin
     e.preventDefault();
     setError("");
     setLoading(true);
-
     const result = await submitRSVP(experienceId, name, phone, status, email);
-
     setLoading(false);
-
     if (result.error) {
       setError(result.error);
       return;
     }
-
     setSubmitted(true);
   }
 
-  const accentColor = accent || "#6C47FF";
-
   if (submitted) {
-    return <p style={{ color: accentColor }} className="font-medium">Thanks — your RSVP is in! 🎉</p>;
+    return (
+      <div>
+        {decoration === "confetti" && status === "going" && <ConfettiBurst accent={accent} />}
+        {decoration === "hearts" && status === "going" && <HeartsBurst accent={accent} />}
+        <p style={{ color: accent }} className="font-medium">
+          Thanks — your RSVP is in! 🎉
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -70,7 +82,7 @@ export default function RSVPForm({ experienceId, accent }: { experienceId: strin
       <button
         disabled={loading}
         className="text-white p-3 w-full rounded-xl font-medium transition-colors disabled:opacity-60"
-        style={{ backgroundColor: accentColor }}
+        style={{ backgroundColor: accent }}
       >
         {loading ? "Submitting…" : "Submit RSVP"}
       </button>
