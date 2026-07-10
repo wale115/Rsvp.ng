@@ -15,6 +15,7 @@ export async function createExperience(formData: FormData) {
   const cover = formData.get("cover") as string;
   const theme = formData.get("theme") as string;
   const rsvpDeadline = formData.get("rsvpDeadline") as string;
+  const password = formData.get("password") as string;
   const galleryRaw = formData.get("gallery") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
@@ -25,7 +26,7 @@ export async function createExperience(formData: FormData) {
     title,
     slug,
     status: "published",
-    content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline },
+    content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password },
   });
 
   if (error) {
@@ -48,13 +49,14 @@ export async function updateExperience(id: string, formData: FormData) {
   const cover = formData.get("cover") as string;
   const theme = formData.get("theme") as string;
   const rsvpDeadline = formData.get("rsvpDeadline") as string;
+  const password = formData.get("password") as string;
   const galleryRaw = formData.get("gallery") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
 
   const { error } = await supabase
     .from("experiences")
-    .update({ title, content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline } })
+    .update({ title, content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password } })
     .eq("id", id)
     .eq("owner_id", user.id);
 

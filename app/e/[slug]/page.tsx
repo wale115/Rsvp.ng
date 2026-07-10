@@ -3,6 +3,7 @@ import RSVPForm from "./rsvp-form";
 import Countdown from "./countdown";
 import { Logo } from "@/components/logo";
 import Image from "next/image";
+import PasswordGate from "./password-gate";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -23,10 +24,10 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, cover, gallery, rsvpDeadline } = experience.content;
+  const { title, date, venue, cover, gallery, rsvpDeadline, password } = experience.content;
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
-  return (
+  const content = (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-[#F0EDFF] to-surface px-4 py-16">
       <div className="max-w-lg w-full text-center space-y-6 bg-white p-10 rounded-3xl shadow-xl">
         {cover && (
@@ -66,4 +67,10 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       </div>
     </div>
   );
+
+  if (password) {
+    return <PasswordGate correctPassword={password}>{content}</PasswordGate>;
+  }
+
+  return content;
 }
