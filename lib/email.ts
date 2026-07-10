@@ -35,3 +35,37 @@ export async function sendRSVPConfirmation({
     // Don't throw — a failed email shouldn't block the RSVP itself
   }
 }
+
+export async function sendEventReminder({
+  to,
+  guestName,
+  eventTitle,
+  eventDate,
+  venue,
+}: {
+  to: string;
+  guestName: string;
+  eventTitle: string;
+  eventDate: string;
+  venue: string;
+}) {
+  try {
+    await resend.emails.send({
+      from: "Rsvp.ng <onboarding@resend.dev>",
+      to,
+      subject: `Reminder: ${eventTitle} is tomorrow!`,
+      html: `
+        <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto;">
+          <h2 style="color: #1A1D3A;">Hi ${guestName},</h2>
+          <p>Just a friendly reminder — <strong>${eventTitle}</strong> is happening tomorrow!</p>
+          <p><strong>Date:</strong> ${new Date(eventDate).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}</p>
+          <p><strong>Venue:</strong> ${venue}</p>
+          <p>We can't wait to see you there.</p>
+          <p style="color: #6B7280; font-size: 13px; margin-top: 24px;">Sent by Rsvp.ng — Every Event. Perfectly Shared.</p>
+        </div>
+      `,
+    });
+  } catch (err) {
+    console.error("Reminder email failed:", err);
+  }
+}
