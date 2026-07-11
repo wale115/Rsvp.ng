@@ -1,7 +1,8 @@
 import { createExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
+import ItineraryEditor from "@/components/itinerary-editor";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2 } from "lucide-react";
+import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered } from "lucide-react";
 
 export default function NewExperience() {
   return (
@@ -64,6 +65,15 @@ export default function NewExperience() {
               <label className="text-sm font-medium text-ink mb-2 block">Gallery Photos</label>
               <ImageUploader name="gallery" />
             </div>
+          </div>
+
+          {/* Itinerary */}
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ListOrdered size={16} className="text-brand" />
+              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Schedule</h2>
+            </div>
+            <ItineraryEditor name="itinerary" />
           </div>
 
           {/* Settings */}

@@ -10,6 +10,7 @@ import AmbientBackground from "@/components/ambient-background";
 import ParallaxCover from "@/components/parallax-cover";
 import EnvelopeIntro from "@/components/envelope-intro";
 import { getInitials } from "@/lib/get-initials";
+import ItineraryTimeline from "./itinerary-timeline";
 import { themes, defaultTheme, type ThemeKey } from "@/lib/themes";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -31,7 +32,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary } = experience.content;
   const theme = themes[(themeKey as ThemeKey) ?? defaultTheme] ?? themes[defaultTheme];
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
@@ -60,6 +61,14 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
             <div className="text-left pt-4 border-t border-gray-100">
               <h2 className="text-sm uppercase tracking-wide text-text-muted mb-2">Our Story</h2>
               <p className="text-text-secondary whitespace-pre-line">{story}</p>
+            </div>
+          </Reveal>
+        )}
+
+        {itinerary && itinerary.length > 0 && (
+          <Reveal>
+            <div className="pt-4 border-t border-gray-100">
+              <ItineraryTimeline items={itinerary} accent={theme.accent} accentLight={theme.accentLight} />
             </div>
           </Reveal>
         )}
