@@ -6,6 +6,8 @@ import Image from "next/image";
 import PasswordGate from "./password-gate";
 import AnimatedCard from "./animated-card";
 import Reveal from "@/components/reveal";
+import AmbientBackground from "@/components/ambient-background";
+import ParallaxCover from "@/components/parallax-cover";
 import { themes, defaultTheme, type ThemeKey } from "@/lib/themes";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -33,20 +35,12 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
   const content = (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-16"
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative"
       style={{ background: `linear-gradient(to bottom, ${theme.accentLight}, #F2F4F8)` }}
     >
+      <AmbientBackground accent={theme.accent} />
       <AnimatedCard>
-        {cover && (
-          <Image
-            src={cover}
-            alt=""
-            width={600}
-            height={300}
-            className="w-full h-56 object-cover rounded-2xl -mt-4 mb-2"
-            priority
-          />
-        )}
+        {cover && <ParallaxCover src={cover} />}
         <p className="text-xs tracking-widest uppercase font-medium" style={{ color: theme.accent }}>
           You&apos;re Invited
         </p>

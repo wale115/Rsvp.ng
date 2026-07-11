@@ -45,15 +45,21 @@ export default function Countdown({
   accent: string;
   accentLight: string;
 }) {
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft(date));
+  const [timeLeft, setTimeLeft] = useState<ReturnType<typeof getTimeLeft> | undefined>(undefined);
   const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
+    // Set immediately on mount (client-only) so server and client agree on
+    // the first render (both produce nothing), then the interval takes over.
+    setTimeLeft(getTimeLeft(date));
     const interval = setInterval(() => setTimeLeft(getTimeLeft(date)), 1000);
     return () => clearInterval(interval);
   }, [date]);
 
-  if (!timeLeft) {
+  // undefined = not yet mounted (SSR / before effect runs) → render nothing
+  // null      = event has passed → render celebration message
+  if (timeLeft === undefined) return null;
+  if (timeLeft === null) {
     return <p style={{ color: accent }} className="font-medium">The celebration has begun 🎉</p>;
   }
 
