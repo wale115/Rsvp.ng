@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { updateExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
+import AudioUploader from "@/components/audio-uploader";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered } from "lucide-react";
 
@@ -21,7 +22,7 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
 
   if (!experience) redirect("/dashboard");
 
-  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } = experience.content;
   const updateWithId = updateExperience.bind(null, id);
 
   return (
@@ -103,6 +104,7 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
                 className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
               />
             </div>
+            <AudioUploader name="music" initialUrl={music ?? ""} />
           </div>
 
           {/* Settings */}

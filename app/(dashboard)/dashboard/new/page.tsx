@@ -1,6 +1,7 @@
 import { createExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
+import AudioUploader from "@/components/audio-uploader";
 import Link from "next/link";
 import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered } from "lucide-react";
 
@@ -82,6 +83,7 @@ export default function NewExperience() {
                 className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
               />
             </div>
+            <AudioUploader name="music" />
           </div>
 
           {/* Settings */}

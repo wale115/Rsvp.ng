@@ -11,6 +11,7 @@ import ParallaxCover from "@/components/parallax-cover";
 import EnvelopeIntro from "@/components/envelope-intro";
 import { getInitials } from "@/lib/get-initials";
 import ItineraryTimeline from "./itinerary-timeline";
+import MusicPlayer from "./music-player";
 import { themes, defaultTheme, type ThemeKey } from "@/lib/themes";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -32,7 +33,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary, dressCode } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } = experience.content;
   const theme = themes[(themeKey as ThemeKey) ?? defaultTheme] ?? themes[defaultTheme];
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
@@ -43,6 +44,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     >
       <EnvelopeIntro initials={getInitials(title)} accent={theme.accent} />
       <AmbientBackground accent={theme.accent} />
+      {music && <MusicPlayer url={music} accent={theme.accent} />}
       <AnimatedCard>
         {cover && <ParallaxCover src={cover} />}
         <p className="text-xs tracking-widest uppercase font-medium" style={{ color: theme.accent }}>
