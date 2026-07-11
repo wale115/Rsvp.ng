@@ -4,7 +4,7 @@ import Countdown from "./countdown";
 import { Logo } from "@/components/logo";
 import Image from "next/image";
 import PasswordGate from "./password-gate";
-import { motion } from "framer-motion";
+import AnimatedCard from "./animated-card";
 import Reveal from "@/components/reveal";
 import { themes, defaultTheme, type ThemeKey } from "@/lib/themes";
 
@@ -36,12 +36,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       className="min-h-screen flex flex-col items-center justify-center px-4 py-16"
       style={{ background: `linear-gradient(to bottom, ${theme.accentLight}, #F2F4F8)` }}
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96, y: 16 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="max-w-lg w-full text-center space-y-6 bg-white p-10 rounded-3xl shadow-xl"
-      >
+      <AnimatedCard>
         {cover && (
           <Image
             src={cover}
@@ -99,7 +94,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
             <Logo />
           </div>
         )}
-      </motion.div>
+      </AnimatedCard>
     </div>
   );
 
