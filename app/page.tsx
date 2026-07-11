@@ -48,7 +48,7 @@ export default function Home() {
           <div className="flex flex-wrap gap-3 mb-5">
             <Link
               href="/signup"
-              className="bg-brand hover:bg-[#5A3AE0] text-white font-medium px-6 py-3 rounded-xl transition-colors"
+              className="bg-brand hover:bg-[#5A3AE0] text-white font-medium px-6 py-3 rounded-xl transition-colors active:scale-[0.98]"
             >
               Create Your Event →
             </Link>
@@ -145,7 +145,7 @@ export default function Home() {
             { icon: Share2, title: "Share Anywhere", desc: "One link, any platform.", bg: "#EEF1FF", color: "#8EA6FF" },
             { icon: Smartphone, title: "Mobile Friendly", desc: "Perfect on every device.", bg: "#FFEAF3", color: "#FF5FAE" },
           ].map((f) => (
-            <div key={f.title} className="bg-white border border-gray-100 rounded-2xl p-5 text-center">
+            <div key={f.title} className="bg-white border border-gray-100 rounded-[20px] p-5 text-center">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: f.bg }}
@@ -222,7 +222,7 @@ export default function Home() {
           <div className="flex justify-center gap-3">
             <Link
               href="/signup"
-              className="bg-white text-brand font-medium px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors"
+              className="bg-white text-brand font-medium px-6 py-3 rounded-xl hover:bg-gray-50 transition-colors active:scale-[0.98]"
             >
               Get Started Free
             </Link>

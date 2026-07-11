@@ -2,145 +2,109 @@ import { createExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
 import AudioUploader from "@/components/audio-uploader";
-import Link from "next/link";
-import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered, Palette } from "lucide-react";
+import { FormGroup, FormRow } from "@/components/form-group";
 import { themes } from "@/lib/themes";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 export default function NewExperience() {
   return (
     <div className="min-h-screen bg-surface">
-      <div className="max-w-2xl mx-auto px-4 py-10">
-        <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm text-text-secondary mb-8 hover:text-ink transition-colors">
+      <div className="max-w-md mx-auto px-4 py-10 pb-20">
+        <Link
+          href="/dashboard"
+          className="inline-flex items-center gap-1.5 text-sm text-text-secondary mb-8 hover:text-ink transition-colors"
+        >
           <ArrowLeft size={15} /> Back to dashboard
         </Link>
 
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-ink">Create New Event</h1>
-          <p className="text-text-secondary text-sm mt-1">Fill in the details to publish your event page.</p>
-        </div>
+        <h1 className="text-2xl font-bold text-ink mb-8">New Event</h1>
 
         <form action={createExperience} className="space-y-6">
-          {/* Event Details */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <CalendarDays size={16} className="text-brand" />
-              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Event Details</h2>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-ink mb-1 block">Event Title <span className="text-pink">*</span></label>
-              <input
-                name="title"
-                placeholder="e.g. John & Mary's Wedding"
-                className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="text-sm font-medium text-ink mb-1 block">Event Date & Time <span className="text-pink">*</span></label>
-                <input name="date" type="datetime-local" className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink focus:border-brand focus:bg-white transition-colors" required />
-              </div>
-              <div>
-                <label className="text-sm font-medium text-ink mb-1 block">RSVP Deadline</label>
-                <input name="rsvpDeadline" type="datetime-local" className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink focus:border-brand focus:bg-white transition-colors" />
-              </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-ink mb-1 flex items-center gap-1.5 block">
-                <MapPin size={13} className="text-text-muted" /> Venue <span className="text-pink">*</span>
-              </label>
-              <input name="venue" placeholder="e.g. Eko Hotel, Lagos" className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors" required />
+          {/* Core details */}
+          <FormGroup>
+            <FormRow label="Event Title">
+              <input name="title" placeholder="John & Mary's Wedding" required />
+            </FormRow>
+            <FormRow label="Date & Time">
+              <input name="date" type="datetime-local" required />
+            </FormRow>
+            <FormRow label="Venue">
+              <input name="venue" placeholder="Eko Hotel, Lagos" required />
+            </FormRow>
+            <FormRow label="RSVP Deadline">
+              <input name="rsvpDeadline" type="datetime-local" />
+            </FormRow>
+            <FormRow label="Dress Code">
+              <input name="dressCode" placeholder="Elegant, Black Tie, Ankara…" />
+            </FormRow>
+          </FormGroup>
+
+          {/* Theme */}
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Template</p>
+            <FormGroup>
+              <FormRow label="Choose a theme">
+                <select name="theme" defaultValue="classic">
+                  {Object.entries(themes).map(([key, t]) => (
+                    <option key={key} value={key}>{t.label}</option>
+                  ))}
+                </select>
+              </FormRow>
+            </FormGroup>
+          </div>
+
+          {/* Story */}
+          <FormGroup>
+            <FormRow label="Your Story">
+              <textarea name="story" placeholder="Tell your story… (optional)" rows={4} />
+            </FormRow>
+          </FormGroup>
+
+          {/* Media */}
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Cover Photo</p>
+            <div className="ios-group p-4">
+              <ImageUploader name="cover" multiple={false} />
             </div>
           </div>
 
-          {/* Media */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <ImageIcon size={16} className="text-brand" />
-              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Media</h2>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-ink mb-2 block">Cover Photo</label>
-              <ImageUploader name="cover" multiple={false} />
-            </div>
-            <div>
-              <label className="text-sm font-medium text-ink mb-2 block">Gallery Photos</label>
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Gallery</p>
+            <div className="ios-group p-4">
               <ImageUploader name="gallery" />
             </div>
           </div>
 
-          {/* Itinerary */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <ListOrdered size={16} className="text-brand" />
-              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Schedule</h2>
+          {/* Schedule & music */}
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Schedule</p>
+            <div className="ios-group p-4">
+              <ItineraryEditor name="itinerary" />
             </div>
-            <ItineraryEditor name="itinerary" />
-            <div>
-              <label className="text-sm text-text-secondary mb-1 block">Dress Code (optional)</label>
-              <input
-                name="dressCode"
-                placeholder="e.g. Elegant, Black Tie, Ankara, Casual"
-                className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
-              />
-            </div>
+          </div>
+
+          <div className="ios-group p-4">
             <AudioUploader name="music" />
           </div>
 
-          {/* Theme */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Palette size={16} className="text-brand" />
-              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Template</h2>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              {(Object.entries(themes) as [string, typeof themes[keyof typeof themes]][]).map(([key, t]) => (
-                <label key={key} className="relative cursor-pointer group">
-                  <input type="radio" name="theme" value={key} defaultChecked={key === "classic"} className="sr-only peer" />
-                  <div
-                    className="rounded-xl p-3 border-2 border-transparent peer-checked:border-brand transition-all"
-                    style={{ background: t.background }}
-                  >
-                    <div className="h-8 rounded-lg mb-2" style={{ backgroundColor: t.surface }} />
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: t.accent }} />
-                      <span className="text-xs font-medium truncate" style={{ color: t.textPrimary === "#1A1A1A" || t.textPrimary.startsWith("#1") || t.textPrimary.startsWith("#2") || t.textPrimary.startsWith("#3") || t.textPrimary.startsWith("#4") ? "#1A1D3A" : "#fff" }}>{t.label}</span>
-                    </div>
-                  </div>
-                </label>
-              ))}
-            </div>
-          </div>
-
           {/* Settings */}
-          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
-            <div className="flex items-center gap-2 mb-2">
-              <Settings2 size={16} className="text-brand" />
-              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Settings</h2>
-            </div>
-            <div>
-              <label className="text-sm font-medium text-ink mb-1 flex items-center gap-1.5 block">
-                <Lock size={13} className="text-text-muted" /> Password Protection
-              </label>
-              <input
-                name="password"
-                type="text"
-                placeholder="Leave blank for public access"
-                className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
-              />
-              <p className="text-xs text-text-muted mt-1">Guests will need this password to view the event page.</p>
-            </div>
-            <label className="flex items-center gap-3 border border-gray-200 bg-surface rounded-xl p-4 cursor-pointer hover:border-brand transition-colors">
-              <input type="checkbox" name="hideBranding" className="w-4 h-4 accent-brand shrink-0" />
-              <div>
-                <p className="text-sm font-medium text-ink">Remove Rsvp.ng branding</p>
-                <p className="text-xs text-text-muted mt-0.5">Premium feature — hide the footer logo on your event page.</p>
-              </div>
-            </label>
-          </div>
+          <FormGroup>
+            <FormRow label="Password">
+              <input name="password" placeholder="Leave blank for public access" />
+            </FormRow>
+          </FormGroup>
 
-          <button className="bg-brand hover:bg-[#5A3AE0] text-white p-3.5 w-full rounded-xl font-medium transition-colors shadow-sm">
-            Create &amp; Publish Event →
+          <label className="ios-group flex items-center gap-3 p-4 cursor-pointer">
+            <input type="checkbox" name="hideBranding" className="w-4 h-4 accent-brand shrink-0" />
+            <div>
+              <p className="text-sm font-medium text-ink">Remove Rsvp.ng branding</p>
+              <p className="text-xs text-text-muted mt-0.5">Premium — hide the footer logo</p>
+            </div>
+          </label>
+
+          <button className="bg-brand hover:bg-[#5A3AE0] text-white p-4 w-full rounded-2xl font-medium transition-colors active:scale-[0.98]">
+            Create &amp; Publish →
           </button>
         </form>
       </div>
