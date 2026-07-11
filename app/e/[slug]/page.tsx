@@ -8,6 +8,8 @@ import AnimatedCard from "./animated-card";
 import Reveal from "@/components/reveal";
 import AmbientBackground from "@/components/ambient-background";
 import ParallaxCover from "@/components/parallax-cover";
+import EnvelopeIntro from "@/components/envelope-intro";
+import { getInitials } from "@/lib/get-initials";
 import { themes, defaultTheme, type ThemeKey } from "@/lib/themes";
 
 export default async function EventPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -38,6 +40,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative"
       style={{ background: `linear-gradient(to bottom, ${theme.accentLight}, #F2F4F8)` }}
     >
+      <EnvelopeIntro initials={getInitials(title)} accent={theme.accent} />
       <AmbientBackground accent={theme.accent} />
       <AnimatedCard>
         {cover && <ParallaxCover src={cover} />}
