@@ -32,7 +32,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary, dressCode } = experience.content;
   const theme = themes[(themeKey as ThemeKey) ?? defaultTheme] ?? themes[defaultTheme];
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
@@ -69,6 +69,17 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
           <Reveal>
             <div className="pt-4 border-t border-gray-100">
               <ItineraryTimeline items={itinerary} accent={theme.accent} accentLight={theme.accentLight} />
+            </div>
+          </Reveal>
+        )}
+
+        {dressCode && (
+          <Reveal>
+            <div className="pt-4 border-t border-gray-100 text-center">
+              <h2 className="text-sm uppercase tracking-wide text-text-muted mb-1">Dress Code</h2>
+              <p className="text-ink font-medium" style={{ fontFamily: "var(--font-playfair, serif)" }}>
+                {dressCode}
+              </p>
             </div>
           </Reveal>
         )}

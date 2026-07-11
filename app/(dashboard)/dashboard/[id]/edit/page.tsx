@@ -21,7 +21,7 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
 
   if (!experience) redirect("/dashboard");
 
-  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary } = experience.content;
+  const { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode } = experience.content;
   const updateWithId = updateExperience.bind(null, id);
 
   return (
@@ -94,6 +94,15 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
               <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Schedule</h2>
             </div>
             <ItineraryEditor name="itinerary" initialItems={itinerary ?? []} />
+            <div>
+              <label className="text-sm text-text-secondary mb-1 block">Dress Code (optional)</label>
+              <input
+                name="dressCode"
+                defaultValue={dressCode}
+                placeholder="e.g. Elegant, Black Tie, Ankara, Casual"
+                className="border border-gray-200 bg-surface p-3 w-full rounded-xl text-ink placeholder:text-text-muted focus:border-brand focus:bg-white transition-colors"
+              />
+            </div>
           </div>
 
           {/* Settings */}
