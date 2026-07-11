@@ -20,6 +20,24 @@
   --font-sans: var(--font-poppins);
 }
 
+:root {
+  --radius-sm: 14px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --shadow-soft: 0 8px 40px rgba(0, 0, 0, 0.08);
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.radius-sm { border-radius: var(--radius-sm); }
+.radius-md { border-radius: var(--radius-md); }
+.radius-lg { border-radius: var(--radius-lg); }
+.shadow-soft { box-shadow: var(--shadow-soft); }
+.shadow-subtle { box-shadow: var(--shadow-subtle); }
+
+.font-display {
+  font-family: var(--font-fraunces);
+}
+
 body {
   background-color: var(--color-surface);
   color: var(--color-text-primary);
@@ -55,9 +73,9 @@ input:focus, select:focus, textarea:focus {
 /* iOS-style grouped list */
 .ios-group {
   background: white;
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  box-shadow: var(--shadow-subtle);
 }
 
 .ios-row {

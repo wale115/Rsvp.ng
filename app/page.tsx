@@ -35,12 +35,10 @@ export default function Home() {
           <p className="inline-block bg-brand-light text-brand text-xs font-medium px-3 py-1 rounded-full mb-5">
             ✦ The Smart Way to Plan &amp; Share Your Events
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-ink leading-tight mb-5">
+          <h1 className="text-4xl md:text-5xl font-bold text-ink leading-tight mb-5 font-display">
             Beautiful Events <br />
             Start{" "}
-            <span className="italic text-pink" style={{ fontFamily: "var(--font-playfair)" }}>
-              Here
-            </span>
+            <span className="italic text-pink">Here</span>
           </h1>
           <p className="text-text-secondary text-lg mb-8 max-w-md">
             Create stunning event experiences, collect RSVPs, and share every detail in one beautiful link.
@@ -134,7 +132,7 @@ export default function Home() {
       {/* Features */}
       <section id="features" className="max-w-5xl mx-auto px-6 py-20">
         <p className="text-center text-xs font-medium text-brand mb-3">✦ Everything You Need</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-ink mb-12">
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-ink mb-12 font-display">
           Powerful Features to Make <br className="hidden md:block" /> Every Event Unforgettable
         </h2>
         <div className="grid md:grid-cols-5 gap-4">
@@ -145,7 +143,7 @@ export default function Home() {
             { icon: Share2, title: "Share Anywhere", desc: "One link, any platform.", bg: "#EEF1FF", color: "#8EA6FF" },
             { icon: Smartphone, title: "Mobile Friendly", desc: "Perfect on every device.", bg: "#FFEAF3", color: "#FF5FAE" },
           ].map((f) => (
-            <div key={f.title} className="bg-white border border-gray-100 rounded-[20px] p-5 text-center">
+            <div key={f.title} className="bg-white border border-gray-100 radius-md p-5 text-center">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-4"
                 style={{ backgroundColor: f.bg }}
@@ -162,7 +160,7 @@ export default function Home() {
       {/* How it works */}
       <section id="how-it-works" className="max-w-4xl mx-auto px-6 py-20">
         <p className="text-center text-xs font-medium text-brand mb-3">✦ Simple Process</p>
-        <h2 className="text-2xl md:text-3xl font-bold text-center text-ink mb-14">How Rsvp.ng Works</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-ink mb-14 font-display">How Rsvp.ng Works</h2>
         <div className="relative grid grid-cols-2 md:grid-cols-4 gap-y-10 gap-x-4 text-center">
           <div className="hidden md:block absolute top-5 left-[12.5%] right-[12.5%] border-t-2 border-dashed border-gray-200" />
           {[
@@ -187,17 +185,17 @@ export default function Home() {
 
       {/* Testimonial — replace with a real host quote once you have one */}
       <section className="max-w-4xl mx-auto px-6 pb-20">
-        <div className="bg-white border border-gray-100 rounded-3xl p-8 md:p-10 grid md:grid-cols-2 gap-8 items-center">
+        <div className="bg-white border border-gray-100 radius-lg p-8 md:p-10 grid md:grid-cols-2 gap-8 items-center shadow-soft">
           <div>
             <p className="text-sm font-medium text-ink mb-3">Loved by hosts, cherished by guests</p>
-            <p className="text-text-secondary italic mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
+            <p className="text-text-secondary italic mb-4 font-display">
               &ldquo;Add a real quote from an early host here once you have one.&rdquo;
             </p>
             <p className="text-sm font-medium text-ink">Host Name</p>
             <p className="text-xs text-text-muted">Lagos, Nigeria</p>
           </div>
           <div
-            className="relative rounded-2xl overflow-hidden h-48 md:h-56"
+            className="relative radius-md overflow-hidden h-48 md:h-56"
             style={{
               backgroundImage: "url(https://picsum.photos/seed/rsvp-testimonial/500/320)",
               backgroundSize: "cover",
@@ -214,8 +212,8 @@ export default function Home() {
 
       {/* CTA */}
       <section className="px-6 pb-16">
-        <div className="max-w-4xl mx-auto bg-gradient-to-br from-brand to-[#4A2FE0] rounded-3xl px-8 py-14 text-center relative overflow-hidden">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+        <div className="max-w-4xl mx-auto bg-gradient-to-br from-brand to-[#4A2FE0] radius-lg px-8 py-14 text-center relative overflow-hidden">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-display">
             Ready to create your unforgettable event? ♥
           </h2>
           <p className="text-white/80 mb-7">Join hosts across Nigeria. It&apos;s free to get started.</p>

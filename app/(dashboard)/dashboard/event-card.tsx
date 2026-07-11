@@ -46,7 +46,7 @@ export default function EventCard({
   }
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-5 space-y-4 shadow-sm">
+    <div className="bg-white border border-gray-100 radius-md p-5 space-y-4 shadow-subtle">
       {/* Header */}
       <Link href={`/e/${slug}`} className="block">
         <div className="flex justify-between items-start gap-3">

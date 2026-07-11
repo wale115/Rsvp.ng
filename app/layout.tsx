@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins, Playfair_Display } from "next/font/google";
+import { Poppins, Fraunces } from "next/font/google";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -8,11 +8,11 @@ const poppins = Poppins({
   variable: "--font-poppins",
 });
 
-const playfair = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  style: ["italic"],
-  weight: ["500", "600"],
-  variable: "--font-playfair",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
+  variable: "--font-fraunces",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +32,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${poppins.variable} ${playfair.variable} font-sans antialiased`}>{children}</body>
+      <body className={`${poppins.variable} ${fraunces.variable} font-sans antialiased`}>
+        {children}
+      </body>
     </html>
   );
 }
