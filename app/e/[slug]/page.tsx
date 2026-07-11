@@ -33,7 +33,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     );
   }
 
-  const { title, date, venue, story, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } = experience.content;
+  const { title, date, venue, story, storyChapters, cover, gallery, theme: themeKey, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } = experience.content;
   const theme = themes[(themeKey as ThemeKey) ?? defaultTheme] ?? themes[defaultTheme];
   const isClosed = rsvpDeadline && new Date(rsvpDeadline) < new Date();
 
@@ -45,7 +45,13 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       <EnvelopeIntro initials={getInitials(title)} accent={theme.accent} />
       <AmbientBackground accent={theme.accent} />
       {music && <MusicPlayer url={music} accent={theme.accent} />}
-      <AnimatedCard surface={theme.surface} cardStyle={theme.cardStyle}>
+      <AnimatedCard
+        surface={theme.surface}
+        cardStyle={theme.cardStyle}
+        accent={theme.accent}
+        decor={theme.decor}
+        motionConfig={theme.motion}
+      >
         {cover && <ParallaxCover src={cover} />}
         <p className="text-xs tracking-widest uppercase font-medium" style={{ color: theme.accent }}>
           You&apos;re Invited
@@ -60,13 +66,46 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
         <Countdown date={date} accent={theme.accent} accentLight={theme.accentLight} />
 
-        {story && (
-          <Reveal>
-            <div className="text-left pt-4 border-t border-gray-100">
-              <h2 className="text-xs uppercase tracking-wide mb-2" style={{ color: theme.textSecondary }}>Our Story</h2>
-              <p className="whitespace-pre-line" style={{ color: theme.textSecondary }}>{story}</p>
-            </div>
-          </Reveal>
+        {storyChapters && storyChapters.length > 0 ? (
+          <div className="text-left pt-4 border-t border-gray-100 space-y-6">
+            <h2 className="text-xs uppercase tracking-wide text-center" style={{ color: theme.textSecondary }}>
+              Our Story
+            </h2>
+            {storyChapters.map((chapter: { id: string; title: string; text: string; image?: string }, i: number) => (
+              <Reveal key={chapter.id} delay={i * 0.1}>
+                <div className="flex gap-4 items-start">
+                  {chapter.image && (
+                    <Image
+                      src={chapter.image}
+                      alt=""
+                      width={80}
+                      height={80}
+                      className="w-16 h-16 object-cover rounded-xl shrink-0"
+                    />
+                  )}
+                  <div>
+                    {chapter.title && (
+                      <p className="font-medium mb-1" style={{ fontFamily: theme.headingFont, color: theme.textPrimary }}>
+                        {chapter.title}
+                      </p>
+                    )}
+                    <p className="text-sm" style={{ color: theme.textSecondary }}>
+                      {chapter.text}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        ) : (
+          story && (
+            <Reveal>
+              <div className="text-left pt-4 border-t border-gray-100">
+                <h2 className="text-xs uppercase tracking-wide mb-2" style={{ color: theme.textSecondary }}>Our Story</h2>
+                <p className="whitespace-pre-line" style={{ color: theme.textSecondary }}>{story}</p>
+              </div>
+            </Reveal>
+          )
         )}
 
         {itinerary && itinerary.length > 0 && (

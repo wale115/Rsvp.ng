@@ -21,9 +21,11 @@ export async function createExperience(formData: FormData) {
   const itineraryRaw = formData.get("itinerary") as string;
   const dressCode = formData.get("dressCode") as string;
   const music = formData.get("music") as string;
+  const storyChaptersRaw = formData.get("storyChapters") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
   const itinerary = itineraryRaw ? JSON.parse(itineraryRaw) : [];
+  const storyChapters = storyChaptersRaw ? JSON.parse(storyChaptersRaw) : [];
   const slug = `${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${nanoid(4)}`;
 
   const { error } = await supabase.from("experiences").insert({
@@ -31,7 +33,7 @@ export async function createExperience(formData: FormData) {
     title,
     slug,
     status: "published",
-    content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode, music },
+    content: { title, date, venue, story, storyChapters, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode, music },
   });
 
   if (error) {
@@ -60,13 +62,15 @@ export async function updateExperience(id: string, formData: FormData) {
   const itineraryRaw = formData.get("itinerary") as string;
   const dressCode = formData.get("dressCode") as string;
   const music = formData.get("music") as string;
+  const storyChaptersRaw = formData.get("storyChapters") as string;
 
   const gallery = galleryRaw ? galleryRaw.split(",").map((u) => u.trim()).filter(Boolean) : [];
   const itinerary = itineraryRaw ? JSON.parse(itineraryRaw) : [];
+  const storyChapters = storyChaptersRaw ? JSON.parse(storyChaptersRaw) : [];
 
   const { error } = await supabase
     .from("experiences")
-    .update({ title, content: { title, date, venue, story, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } })
+    .update({ title, content: { title, date, venue, story, storyChapters, cover, gallery, theme, rsvpDeadline, password, hideBranding, itinerary, dressCode, music } })
     .eq("id", id)
     .eq("owner_id", user.id);
 

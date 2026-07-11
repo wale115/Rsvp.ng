@@ -4,6 +4,8 @@ import { updateExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
 import AudioUploader from "@/components/audio-uploader";
+import StoryEditor from "@/components/story-editor";
+import DateTimePicker from "@/components/date-time-picker";
 import { FormGroup, FormRow } from "@/components/form-group";
 import { themes } from "@/lib/themes";
 import Link from "next/link";
@@ -25,9 +27,9 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
   if (!experience) redirect("/dashboard");
 
   const {
-    title, date, venue, story, cover, gallery,
+    title, date, venue, cover, gallery,
     theme, rsvpDeadline, password, hideBranding,
-    itinerary, dressCode, music,
+    itinerary, dressCode, music, storyChapters,
   } = experience.content;
 
   const updateWithId = updateExperience.bind(null, id);
@@ -54,13 +56,13 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
               <input name="title" defaultValue={title} placeholder="John & Mary's Wedding" required />
             </FormRow>
             <FormRow label="Date & Time">
-              <input name="date" type="datetime-local" defaultValue={date?.slice(0, 16)} required />
+              <DateTimePicker name="date" defaultValue={date} placeholder="When is your event?" />
             </FormRow>
             <FormRow label="Venue">
               <input name="venue" defaultValue={venue} placeholder="Eko Hotel, Lagos" required />
             </FormRow>
             <FormRow label="RSVP Deadline">
-              <input name="rsvpDeadline" type="datetime-local" defaultValue={rsvpDeadline?.slice(0, 16)} />
+              <DateTimePicker name="rsvpDeadline" defaultValue={rsvpDeadline} placeholder="Optional cutoff" />
             </FormRow>
             <FormRow label="Dress Code">
               <input name="dressCode" defaultValue={dressCode} placeholder="Elegant, Black Tie, Ankara…" />
@@ -82,11 +84,12 @@ export default async function EditExperience({ params }: { params: Promise<{ id:
           </div>
 
           {/* Story */}
-          <FormGroup>
-            <FormRow label="Your Story">
-              <textarea name="story" defaultValue={story} placeholder="Tell your story… (optional)" rows={4} />
-            </FormRow>
-          </FormGroup>
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Your Story</p>
+            <div className="ios-group p-4">
+              <StoryEditor name="storyChapters" initialChapters={storyChapters ?? []} />
+            </div>
+          </div>
 
           {/* Media */}
           <div>

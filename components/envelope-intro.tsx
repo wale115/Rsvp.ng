@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
+type Phase = "sealed" | "opening" | "done";
+
 export default function EnvelopeIntro({
   initials,
   accent,
@@ -11,72 +13,102 @@ export default function EnvelopeIntro({
   accent: string;
   onOpen?: () => void;
 }) {
-  const [opened, setOpened] = useState(false);
+  const [phase, setPhase] = useState<Phase>("sealed");
   const shouldReduceMotion = useReducedMotion();
 
-  function handleOpen() {
-    setOpened(true);
+  function handleSealClick() {
+    setPhase("opening");
     onOpen?.();
   }
 
-  if (shouldReduceMotion) {
-    return null; // skip straight to content for reduced-motion users
-  }
+  if (shouldReduceMotion) return null;
 
   return (
     <AnimatePresence>
-      {!opened && (
+      {phase !== "done" && (
         <motion.div
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8"
           style={{ backgroundColor: accent }}
         >
-          <div className="text-center">
+          <div className="relative w-64 h-44" style={{ perspective: "800px" }}>
+            {/* Envelope body */}
+            <div className="absolute inset-0 bg-white/95 rounded-md shadow-2xl" />
+
+            {/* Card rising from inside */}
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className="relative w-56 h-40 mx-auto mb-8"
+              className="absolute left-1/2 top-6 -translate-x-1/2 w-40 h-24 bg-white rounded-sm shadow-md flex items-center justify-center"
+              initial={{ y: 16, opacity: 0 }}
+              animate={phase === "opening" ? { y: -26, opacity: 1 } : { y: 16, opacity: 0 }}
+              transition={{ duration: 0.8, delay: 1.1, ease: "easeOut" }}
             >
-              {/* Envelope body */}
-              <div className="absolute inset-0 bg-white/95 rounded-lg shadow-2xl" />
-              {/* Envelope flap */}
-              <motion.div
-                animate={opened ? { rotateX: 180 } : { rotateX: 0 }}
-                transition={{ duration: 0.7, ease: "easeInOut" }}
-                style={{ transformOrigin: "top", transformStyle: "preserve-3d" }}
-                className="absolute top-0 left-0 right-0 h-20 origin-top"
+              <span
+                className="text-lg tracking-widest"
+                style={{ fontFamily: "var(--font-playfair)", color: accent }}
               >
-                <div
-                  className="w-full h-full"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.8))",
-                    clipPath: "polygon(0 0, 100% 0, 50% 100%)",
-                  }}
-                />
-              </motion.div>
-              {/* Monogram */}
-              <div className="absolute inset-0 flex items-center justify-center pt-6">
-                <span
-                  className="text-3xl tracking-widest"
-                  style={{ fontFamily: "var(--font-playfair, serif)", color: accent }}
-                >
-                  {initials}
-                </span>
-              </div>
+                {initials}
+              </span>
             </motion.div>
 
-            <motion.button
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              onClick={handleOpen}
-              className="text-white text-sm font-medium tracking-widest uppercase border border-white/60 rounded-full px-8 py-3 hover:bg-white/10 transition-colors"
+            {/* Top flap */}
+            <motion.div
+              className="absolute top-0 left-0 right-0 h-24 origin-top"
+              style={{ transformStyle: "preserve-3d" }}
+              animate={phase === "opening" ? { rotateX: 175 } : { rotateX: 0 }}
+              transition={{
+                duration: 1.2,
+                ease: [0.65, 0, 0.35, 1],
+                delay: phase === "opening" ? 0.4 : 0,
+              }}
+              onAnimationComplete={() => {
+                if (phase === "opening") setTimeout(() => setPhase("done"), 900);
+              }}
             >
-              Tap to Open
-            </motion.button>
+              <div
+                className="w-full h-full"
+                style={{
+                  background:
+                    "linear-gradient(160deg, rgba(255,255,255,0.98), rgba(255,255,255,0.85))",
+                  clipPath: "polygon(0 0, 100% 0, 50% 100%)",
+                }}
+              />
+            </motion.div>
+
+            {/* Wax seal */}
+            <AnimatePresence>
+              {phase === "sealed" && (
+                <motion.button
+                  onClick={handleSealClick}
+                  whileTap={{ scale: 0.92 }}
+                  exit={{ scale: 1.4, rotate: 20, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: "easeIn" }}
+                  className="absolute left-1/2 top-[72px] -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full shadow-lg flex items-center justify-center z-10 cursor-pointer"
+                  style={{
+                    background: `radial-gradient(circle at 32% 28%, ${accent}, #00000055)`,
+                  }}
+                >
+                  <span
+                    className="text-white text-[10px] font-semibold tracking-widest"
+                    style={{ fontFamily: "var(--font-playfair)" }}
+                  >
+                    {initials}
+                  </span>
+                </motion.button>
+              )}
+            </AnimatePresence>
           </div>
+
+          {phase === "sealed" && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+              className="text-white text-xs tracking-widest uppercase"
+            >
+              Tap the seal to open
+            </motion.p>
+          )}
         </motion.div>
       )}
     </AnimatePresence>

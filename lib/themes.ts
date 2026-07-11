@@ -17,6 +17,12 @@ export interface Theme {
   headingFont: string;
   decoration: "none" | "confetti" | "hearts";
   cardStyle: "rounded" | "sharp";
+  motion: {
+    cardDuration: number;
+    cardEase: [number, number, number, number];
+    revealDuration: number;
+  };
+  decor: "none" | "flourish" | "grain" | "mist" | "ornate";
 }
 
 export const themes: Record<ThemeKey, Theme> = {
@@ -31,6 +37,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-poppins)",
     decoration: "confetti",
     cardStyle: "rounded",
+    motion: { cardDuration: 0.7, cardEase: [0.22, 1, 0.36, 1], revealDuration: 0.6 },
+    decor: "none",
   },
   editorial: {
     label: "The Editorial",
@@ -43,6 +51,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-playfair)",
     decoration: "none",
     cardStyle: "sharp",
+    motion: { cardDuration: 0.9, cardEase: [0.16, 1, 0.3, 1], revealDuration: 0.8 },
+    decor: "flourish",
   },
   cinematic: {
     label: "The Cinematic",
@@ -55,6 +65,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-playfair)",
     decoration: "none",
     cardStyle: "sharp",
+    motion: { cardDuration: 1.1, cardEase: [0.65, 0, 0.35, 1], revealDuration: 0.9 },
+    decor: "grain",
   },
   coastal: {
     label: "The Coastal",
@@ -67,6 +79,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-playfair)",
     decoration: "none",
     cardStyle: "rounded",
+    motion: { cardDuration: 0.8, cardEase: [0.22, 1, 0.36, 1], revealDuration: 0.7 },
+    decor: "flourish",
   },
   moody: {
     label: "The Moody",
@@ -79,6 +93,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-playfair)",
     decoration: "none",
     cardStyle: "sharp",
+    motion: { cardDuration: 1.0, cardEase: [0.65, 0, 0.35, 1], revealDuration: 0.85 },
+    decor: "mist",
   },
   oldmoney: {
     label: "The Old Money",
@@ -91,6 +107,8 @@ export const themes: Record<ThemeKey, Theme> = {
     headingFont: "var(--font-playfair)",
     decoration: "none",
     cardStyle: "sharp",
+    motion: { cardDuration: 1.0, cardEase: [0.65, 0, 0.35, 1], revealDuration: 0.8 },
+    decor: "ornate",
   },
 };
 

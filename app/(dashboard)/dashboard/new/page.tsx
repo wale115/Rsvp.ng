@@ -2,6 +2,8 @@ import { createExperience } from "@/actions/experience";
 import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
 import AudioUploader from "@/components/audio-uploader";
+import StoryEditor from "@/components/story-editor";
+import DateTimePicker from "@/components/date-time-picker";
 import { FormGroup, FormRow } from "@/components/form-group";
 import { themes } from "@/lib/themes";
 import Link from "next/link";
@@ -27,13 +29,13 @@ export default function NewExperience() {
               <input name="title" placeholder="John & Mary's Wedding" required />
             </FormRow>
             <FormRow label="Date & Time">
-              <input name="date" type="datetime-local" required />
+              <DateTimePicker name="date" placeholder="When is your event?" />
             </FormRow>
             <FormRow label="Venue">
               <input name="venue" placeholder="Eko Hotel, Lagos" required />
             </FormRow>
             <FormRow label="RSVP Deadline">
-              <input name="rsvpDeadline" type="datetime-local" />
+              <DateTimePicker name="rsvpDeadline" placeholder="Optional cutoff" />
             </FormRow>
             <FormRow label="Dress Code">
               <input name="dressCode" placeholder="Elegant, Black Tie, Ankara…" />
@@ -55,11 +57,12 @@ export default function NewExperience() {
           </div>
 
           {/* Story */}
-          <FormGroup>
-            <FormRow label="Your Story">
-              <textarea name="story" placeholder="Tell your story… (optional)" rows={4} />
-            </FormRow>
-          </FormGroup>
+          <div>
+            <p className="text-xs text-text-muted mb-2 px-1 uppercase tracking-wide">Your Story</p>
+            <div className="ios-group p-4">
+              <StoryEditor name="storyChapters" />
+            </div>
+          </div>
 
           {/* Media */}
           <div>
