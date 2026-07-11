@@ -3,7 +3,8 @@ import ImageUploader from "@/components/image-uploader";
 import ItineraryEditor from "@/components/itinerary-editor";
 import AudioUploader from "@/components/audio-uploader";
 import Link from "next/link";
-import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered } from "lucide-react";
+import { ArrowLeft, CalendarDays, MapPin, Lock, Image as ImageIcon, Settings2, ListOrdered, Palette } from "lucide-react";
+import { themes } from "@/lib/themes";
 
 export default function NewExperience() {
   return (
@@ -84,6 +85,31 @@ export default function NewExperience() {
               />
             </div>
             <AudioUploader name="music" />
+          </div>
+
+          {/* Theme */}
+          <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Palette size={16} className="text-brand" />
+              <h2 className="text-sm font-semibold text-ink uppercase tracking-wide">Template</h2>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {(Object.entries(themes) as [string, typeof themes[keyof typeof themes]][]).map(([key, t]) => (
+                <label key={key} className="relative cursor-pointer group">
+                  <input type="radio" name="theme" value={key} defaultChecked={key === "classic"} className="sr-only peer" />
+                  <div
+                    className="rounded-xl p-3 border-2 border-transparent peer-checked:border-brand transition-all"
+                    style={{ background: t.background }}
+                  >
+                    <div className="h-8 rounded-lg mb-2" style={{ backgroundColor: t.surface }} />
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: t.accent }} />
+                      <span className="text-xs font-medium truncate" style={{ color: t.textPrimary === "#1A1A1A" || t.textPrimary.startsWith("#1") || t.textPrimary.startsWith("#2") || t.textPrimary.startsWith("#3") || t.textPrimary.startsWith("#4") ? "#1A1D3A" : "#fff" }}>{t.label}</span>
+                    </div>
+                  </div>
+                </label>
+              ))}
+            </div>
           </div>
 
           {/* Settings */}

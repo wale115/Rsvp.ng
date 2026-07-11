@@ -40,29 +40,31 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const content = (
     <div
       className="min-h-screen flex flex-col items-center justify-center px-4 py-16 relative"
-      style={{ background: `linear-gradient(to bottom, ${theme.accentLight}, #F2F4F8)` }}
+      style={{ background: theme.background }}
     >
       <EnvelopeIntro initials={getInitials(title)} accent={theme.accent} />
       <AmbientBackground accent={theme.accent} />
       {music && <MusicPlayer url={music} accent={theme.accent} />}
-      <AnimatedCard>
+      <AnimatedCard surface={theme.surface} cardStyle={theme.cardStyle}>
         {cover && <ParallaxCover src={cover} />}
         <p className="text-xs tracking-widest uppercase font-medium" style={{ color: theme.accent }}>
           You&apos;re Invited
         </p>
-        <h1 className="text-4xl font-bold text-ink">{title}</h1>
-        <p className="text-text-secondary">
+        <h1 className="text-4xl font-bold" style={{ fontFamily: theme.headingFont, color: theme.textPrimary }}>
+          {title}
+        </h1>
+        <p style={{ color: theme.textSecondary }}>
           {new Date(date).toLocaleString(undefined, { dateStyle: "full", timeStyle: "short" })}
         </p>
-        <p className="text-text-secondary">{venue}</p>
+        <p style={{ color: theme.textSecondary }}>{venue}</p>
 
         <Countdown date={date} accent={theme.accent} accentLight={theme.accentLight} />
 
         {story && (
           <Reveal>
             <div className="text-left pt-4 border-t border-gray-100">
-              <h2 className="text-sm uppercase tracking-wide text-text-muted mb-2">Our Story</h2>
-              <p className="text-text-secondary whitespace-pre-line">{story}</p>
+              <h2 className="text-xs uppercase tracking-wide mb-2" style={{ color: theme.textSecondary }}>Our Story</h2>
+              <p className="whitespace-pre-line" style={{ color: theme.textSecondary }}>{story}</p>
             </div>
           </Reveal>
         )}
@@ -78,8 +80,8 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
         {dressCode && (
           <Reveal>
             <div className="pt-4 border-t border-gray-100 text-center">
-              <h2 className="text-sm uppercase tracking-wide text-text-muted mb-1">Dress Code</h2>
-              <p className="text-ink font-medium" style={{ fontFamily: "var(--font-playfair, serif)" }}>
+              <h2 className="text-xs uppercase tracking-wide mb-1" style={{ color: theme.textSecondary }}>Dress Code</h2>
+              <p className="font-medium" style={{ fontFamily: theme.headingFont, color: theme.textPrimary }}>
                 {dressCode}
               </p>
             </div>
@@ -98,7 +100,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
         <div className="pt-4 border-t border-gray-100">
           {isClosed ? (
-            <p className="text-text-secondary">RSVPs have closed for this event.</p>
+            <p style={{ color: theme.textSecondary }}>RSVPs have closed for this event.</p>
           ) : (
             <RSVPForm
               experienceId={experience.id}
